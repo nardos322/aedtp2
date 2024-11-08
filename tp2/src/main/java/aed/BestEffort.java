@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 public class BestEffort {
     //Completar atributos privados
+    // hola
 
     public BestEffort(int cantCiudades, Traslado[] traslados){
         // Implementar
+
     }
 
     public void registrarTraslados(Traslado[] traslados){
