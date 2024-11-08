@@ -1,0 +1,34 @@
+/.idea
+*.iml
+# Directorios de compilación y dependencias
+/target/
+/build/
+
+# Archivos y carpetas de IntelliJ IDEA
+
+
+
+# Archivos y carpetas de Maven
+/.mvn/
+/target/
+
+# Archivos de Gradle
+.gradle/
+build/
+
+# Archivos temporales y de configuración del sistema
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Archivos específicos de IntelliJ
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/
+.idea/coverage/
+
+# Otros archivos generados por herramientas de construcción y configuración
+.classpath
+.project
+.settings/
