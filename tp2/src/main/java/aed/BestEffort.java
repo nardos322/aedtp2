@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class BestEffort {
     //Completar atributos privados
     // hola
-
+    // chau
+    // sjdahd
     public BestEffort(int cantCiudades, Traslado[] traslados){
         // Implementar
 
