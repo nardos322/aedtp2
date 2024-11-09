@@ -6,7 +6,7 @@ import java.util.Comparator;
 
 
 public class Heap<T> {
-    private ArrayList<HeapHandle<T>> heap;
+    ArrayList<HeapHandle<T>> heap;
     private Comparator<? super T> comparator;
 
     public Heap() {
