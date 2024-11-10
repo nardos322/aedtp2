@@ -23,6 +23,11 @@ public class PriorityQueue<T> {
         elementos = new Heap<>(array, comparador);
         tamaño = 0;
     }
+    public PriorityQueue(HeapHandle[] array, Comparator<T> comparador) {
+        elementos = new Heap<>(array, comparador);
+        tamaño = 0;
+    }
+
 
     public HeapHandle<T> enqueue(T e) {
         HeapHandle<T> handle =  elementos.encolar(e);

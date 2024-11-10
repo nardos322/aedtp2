@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class BestEffort {
     PriorityQueue<Traslado> masRedituables;
-    private PriorityQueue<Traslado> masAntiguos;
+    PriorityQueue<Traslado> masAntiguos;
     private Estadistica estadisticas;
 
     public BestEffort(int cantCiudades, Traslado[] traslados){
@@ -18,17 +18,18 @@ public class BestEffort {
             traslados[i].setHandleGanancia(handlesMasRedituables[i]);
         }
         for (int i = 0; i < handlesMasAntiguos.length; i++){
-            traslados[i].setHandleGanancia(handlesMasAntiguos[i]);
+            traslados[i].setHandleAntiguedad(handlesMasAntiguos[i]);
         }
-        masRedituables = new PriorityQueue<>(traslados, new MasRedituablesComparador());
-        masAntiguos = new PriorityQueue<>(traslados, new MasAntiguosComparador());
+        masRedituables = new PriorityQueue<>(handlesMasRedituables, new MasRedituablesComparador());
+        masAntiguos = new PriorityQueue<>(handlesMasAntiguos, new MasAntiguosComparador());
 
 
     }
 
     public void registrarTraslados(Traslado[] traslados){
         for(Traslado t : traslados){
-            HeapHandle<Traslado> handle = masRedituables.enqueue(t);
+            t.setHandleGanancia(masRedituables.enqueue(t));
+            t.setHandleAntiguedad(masAntiguos.enqueue(t));
         }
     }
 

@@ -9,6 +9,11 @@ public class HeapHandle<T>{
         this.index = -1;
     }
 
+    public HeapHandle(T element, int i){
+        this.element = element;
+        this.index = i;
+    }
+
     public T getElement(){
         return element;
     }
@@ -17,11 +22,11 @@ public class HeapHandle<T>{
         return index;
     }
 
-    void setIndex(int index){
+    public void setIndex(int index){
         this.index = index;
     }
 
-  /*  public String toString(){
+    public String toString(){
         return String.valueOf(element);
-    }*/
+    }
 }
