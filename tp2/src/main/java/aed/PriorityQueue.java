@@ -17,15 +17,15 @@ public class PriorityQueue<T> {
 
     public PriorityQueue(Heap<T> elementos) {
         this.elementos = elementos;
-        tamaño = 0;
+        tamaño = elementos.tamaño();
     }
     public PriorityQueue(T[] array, Comparator<T> comparador) {
         elementos = new Heap<>(array, comparador);
-        tamaño = 0;
+        tamaño = array.length;
     }
     public PriorityQueue(HeapHandle[] array, Comparator<T> comparador) {
         elementos = new Heap<>(array, comparador);
-        tamaño = 0;
+        tamaño = array.length;
     }
 
 
@@ -46,6 +46,11 @@ public class PriorityQueue<T> {
 
     public void updatePriority(HeapHandle<T> handle) {
         elementos.cambiarPrioridad(handle);
+    }
+
+    public void eliminar(HeapHandle<T> handle) {
+        elementos.eliminar(handle);
+        tamaño --;
     }
 
     public int size(){

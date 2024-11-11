@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class BestEffort {
     PriorityQueue<Traslado> masRedituables;
     PriorityQueue<Traslado> masAntiguos;
-    private Estadistica estadisticas;
+    Estadistica estadisticas;
 
     public BestEffort(int cantCiudades, Traslado[] traslados){
         HeapHandle<Traslado>[] handlesMasRedituables = new HeapHandle[traslados.length];
@@ -22,7 +22,7 @@ public class BestEffort {
         }
         masRedituables = new PriorityQueue<>(handlesMasRedituables, new MasRedituablesComparador());
         masAntiguos = new PriorityQueue<>(handlesMasAntiguos, new MasAntiguosComparador());
-
+        estadisticas = new Estadistica(cantCiudades);
 
     }
 
@@ -34,8 +34,16 @@ public class BestEffort {
     }
 
     public int[] despacharMasRedituables(int n){
-        // Implementar
-        return null;
+        int[] masRedituables = new int[n];
+        int i = 0;
+        while(i < n) {
+            this.masAntiguos.eliminar(this.masRedituables.consultarMax().getHandleAntiguedad());
+            estadisticas.agregarTraslado(this.masRedituables.consultarMax());
+            masRedituables[i] = this.masRedituables.dequeueMax().getId();
+            i++;
+
+        }
+        return masRedituables;
     }
 
     public int[] despacharMasAntiguos(int n){

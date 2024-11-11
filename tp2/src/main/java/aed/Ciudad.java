@@ -5,6 +5,7 @@ public class Ciudad {
     private int gananciaTotal;
     private int perdidaTotal;
     private int superavit;
+    private HeapHandle<Ciudad> handleCiudad;
 
     public Ciudad(int id){
         this.id = id;
@@ -21,7 +22,7 @@ public class Ciudad {
         perdidaTotal += perdida;
     }
 
-    public void superavit(){
+    public void setSuperavit(){
         superavit = gananciaTotal - perdidaTotal;
     }
 
@@ -37,5 +38,12 @@ public class Ciudad {
 
     public int getSuperavit(){
         return superavit;
+    }
+
+    public void setHandleCiudad(HeapHandle<Ciudad> handleCiudad) {
+        this.handleCiudad = handleCiudad;
+    }
+    public HeapHandle<Ciudad> getHandleCiudad(){
+        return handleCiudad;
     }
 }

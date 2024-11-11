@@ -170,16 +170,19 @@ public class Heap<T> {
             return ((Comparable<? super T>) first).compareTo(second);
         }
     }
-    public void eliminar(HeapHandle<T> elemento) {
-        int index = elemento.getIndex();
-        int lasIndex = tamaño() - 1;
-        if (index != lasIndex){
-            swap(index, lasIndex);
-            heap.remove(lasIndex);
+    public void eliminar(HeapHandle<T> handle) {
+        int index = handle.getIndex();
+        int lastIndex = tamaño() - 1;
+        if (index != lastIndex){
+            swap(index, lastIndex);
+            heap.get(lastIndex).setIndex(-1);
+            heap.remove(lastIndex);
             heapifyDown(index);
             heapifyUp(index);
         } else {
-            heap.remove(lasIndex);
+            heap.get(lastIndex).setIndex(-1);
+            heap.remove(lastIndex);
+
         }
 
     }
