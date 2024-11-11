@@ -24,7 +24,7 @@ public class Heap<T> {
         comparator = null;
         int i = 0;
         while(i < array.length) {
-            heap.add(new HeapHandle<>(array[i]));
+            heap.add(new HeapHandle<>(array[i], i));
             i++;
         }
         buildHeap();
@@ -35,7 +35,18 @@ public class Heap<T> {
         this.comparator = comparator;
         int i = 0;
         while (i < array.length) {
-            heap.add(new HeapHandle<>(array[i]));
+            heap.add(new HeapHandle<>(array[i], i));
+            i++;
+        }
+        buildHeap();
+    }
+
+    public Heap(HeapHandle[] array, Comparator<? super T> comparator) {
+        heap = new ArrayList<>(array.length);
+        this.comparator = comparator;
+        int i = 0;
+        while (i < array.length) {
+            heap.add(array[i]);
             i++;
         }
         buildHeap();
@@ -158,6 +169,19 @@ public class Heap<T> {
         } else {
             // Invertimos el orden para que el mayor tenga mayor prioridad
             return ((Comparable<? super T>) first).compareTo(second);
+        }
+    }
+
+    public void eliminar(HeapHandle<T> handle){
+        int index = handle.getIndex();
+        int lastIndex = tamaño() - 1;
+        if (index != lastIndex){
+            swap(index, lastIndex);
+            heap.remove(lastIndex);
+            heapifyDown(index);
+            heapifyUp(index);
+        } else {
+            heap.remove(lastIndex);
         }
     }
     public String toString() {
