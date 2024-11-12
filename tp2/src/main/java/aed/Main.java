@@ -16,7 +16,13 @@ public class Main {
         Traslado t3 = new Traslado(8,1,3,500,6);
         Traslado[] traslados2 = {t1,t2,t3};
 
-        empresa.despacharMasRedituables(6);
+        int[] id = empresa.despacharMasAntiguos(10);
+        System.out.println(id);
+        empresa.registrarTraslados(traslados2);
+        int[] id2 = empresa.despacharMasRedituables(10);
+        System.out.println(id2);
+        int[] id3 = empresa.despacharMasRedituables(4);
+        System.out.println(id3);
 /*        for(int t : empresa.despacharMasRedituables(5)) {
             System.out.println(t);
         }

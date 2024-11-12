@@ -9,8 +9,8 @@ public class BestEffort {
 
 
     public BestEffort(int cantCiudades, Traslado[] traslados){                           // O(C + T)
-        HeapHandle<Traslado>[] handlesMasRedituables = new HeapHandle[traslados.length];
-        HeapHandle<Traslado>[]handlesMasAntiguos = new HeapHandle[traslados.length];
+        HeapHandle<Traslado>[] handlesMasRedituables = new HeapHandle[traslados.length];   //O(T)
+        HeapHandle<Traslado>[]handlesMasAntiguos = new HeapHandle[traslados.length];       //O(T)
         for (int i = 0; i < traslados.length; i++){                                          //O(T)
             handlesMasRedituables[i] = new HeapHandle<>(traslados[i], i);
             handlesMasAntiguos[i] = new HeapHandle<>(traslados[i], i);
@@ -34,10 +34,15 @@ public class BestEffort {
         }
     }
 
-    public int[] despacharMasRedituables(int n){                     //O(n*(log(C) + log(T))
-        int[] masRedituables = new int[n];                           //O(n)
-        int tamañoInicial = this.masRedituables.size();              //O(1)
-        int i = 0;                                                   //O(1)
+    public int[] despacharMasRedituables(int n){                //O(n*(log(C) + log(T))
+        int[] masRedituables;                                         //O(1)
+        int tamañoInicial = this.masRedituables.size();               //O(1)
+        int i = 0;                                                    //O(1)
+        if(n > this.masRedituables.size()){                           //O(1)
+            masRedituables = new int[this.masRedituables.size()];    //O(T)
+        } else {
+            masRedituables = new int[n];                             //O(n)
+        }
         while(i < n) {                                               //O(n)
             if(i < tamañoInicial) {                                 //O(1)
                 this.masAntiguos.eliminar(this.masRedituables.consultarMax().getHandleAntiguedad());  //O(Log(T))
@@ -52,14 +57,19 @@ public class BestEffort {
     }
 
     public int[] despacharMasAntiguos(int n){       //igual al antertior es analoga O(n*(log(C) + log(T))
-        int[] masAntiguos = new int[n];
-        int tamañoInicial = this.masAntiguos.size();
-        int i = 0;
-        while(i < n) {
-            if (i < tamañoInicial) {
-                this.masRedituables.eliminar(this.masAntiguos.consultarMax().getHandleGanancia());
-                estadisticas.agregarTraslado(this.masAntiguos.consultarMax());
-                masAntiguos[i] = this.masAntiguos.dequeueMax().getId();
+        int[] masAntiguos;                              //O(1)
+        int tamañoInicial = this.masAntiguos.size();    //O(1)
+        int i = 0;                                      //O(1)
+        if(n > this.masAntiguos.size()){                //O(1)
+            masAntiguos = new int[this.masAntiguos.size()];    //O(T)
+        } else {
+            masAntiguos = new int[n];                   //O(n)
+        }
+        while(i < n) {                 //O(n)
+            if (i < tamañoInicial) {       //O(1)
+                this.masRedituables.eliminar(this.masAntiguos.consultarMax().getHandleGanancia());  //O(log(T))
+                estadisticas.agregarTraslado(this.masAntiguos.consultarMax());                     //O(log(C))
+                masAntiguos[i] = this.masAntiguos.dequeueMax().getId();                           //O(log(T))
             }
             i++;
         }
@@ -67,20 +77,19 @@ public class BestEffort {
     }
 
     public int ciudadConMayorSuperavit(){
-        return estadisticas.getCiudadMayorSuperavit();
-    }  //O(1)
+        return estadisticas.getCiudadMayorSuperavit();       //O(1)
+    }
 
     public ArrayList<Integer> ciudadesConMayorGanancia(){
-        return estadisticas.getCiudadesMayorGanancia();
-    }  //O(1)
+        return estadisticas.getCiudadesMayorGanancia();    //O(1)
 
+    }
     public ArrayList<Integer> ciudadesConMayorPerdida(){
-        return estadisticas.getCiudadesMayorPerdida();
-    }    //O(1)
+        return estadisticas.getCiudadesMayorPerdida();      //O(1)
+    }
 
-    public int gananciaPromedioPorTraslado(){          //O(1)
-
-        return estadisticas.promedioGanancia();
+    public int gananciaPromedioPorTraslado(){
+        return estadisticas.promedioGanancia();          //O(1)
     }
     
 }
