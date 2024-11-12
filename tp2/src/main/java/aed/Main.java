@@ -2,8 +2,6 @@ package aed;
 
 public class Main {
     public static void main(String[] args) {
-        Integer[] a = {1,5,6,3,20};
-        Heap<Integer> heap = new Heap<>(a);
         Traslado[] traslados = {
                 new Traslado(1,3,5,50,6),
                 new Traslado(2,3,8,1000,8),

@@ -8,8 +8,8 @@ public class Estadistica {
     private ArrayList<Integer> ciudadesMayorGanancia;
     private ArrayList<Integer> ciudadesMayorPerdida;
     private PriorityQueue<Ciudad> mayorSuperavit;
-    int totalGanancias;
-    int totalTraslados;
+    private int totalGanancias;
+    private int totalTraslados;
 
     public Estadistica(int cantCiudades){
         ciudades = new Ciudad[cantCiudades];
