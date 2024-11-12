@@ -3,7 +3,7 @@ package aed;
 import java.util.Comparator;
 
 public class PriorityQueue<T> {
-    Heap<T> elementos;
+    private Heap<T> elementos;
     private int tamaño;
 
     public PriorityQueue(){

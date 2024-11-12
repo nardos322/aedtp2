@@ -29,7 +29,7 @@ public class Main {
             System.out.println(k.getElement());
         }
         */
-        System.out.println(empresa.estadisticas.mayorSuperavit);
+
         //System.out.println(empresa.estadisticas.ciudades[3].getSuperavit());
 
 

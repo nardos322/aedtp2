@@ -3,9 +3,9 @@ package aed;
 import java.util.ArrayList;
 
 public class BestEffort {
-    PriorityQueue<Traslado> masRedituables;
-    PriorityQueue<Traslado> masAntiguos;
-    Estadistica estadisticas;
+    private PriorityQueue<Traslado> masRedituables;
+    private PriorityQueue<Traslado> masAntiguos;
+    private Estadistica estadisticas;
 
     public BestEffort(int cantCiudades, Traslado[] traslados){
         HeapHandle<Traslado>[] handlesMasRedituables = new HeapHandle[traslados.length];
@@ -47,28 +47,32 @@ public class BestEffort {
     }
 
     public int[] despacharMasAntiguos(int n){
-        // Implementar
-        return null;
+        int[] masAntiguos = new int[n];
+        int i = 0;
+        while(i < n) {
+            this.masRedituables.eliminar(this.masAntiguos.consultarMax().getHandleGanancia());
+            estadisticas.agregarTraslado(this.masAntiguos.consultarMax());
+            masAntiguos[i] = this.masAntiguos.dequeueMax().getId();
+            i++;
+        }
+        return masAntiguos;
     }
 
     public int ciudadConMayorSuperavit(){
-        // Implementar
-        return 0;
+        return estadisticas.getCiudadMayorSuperavit();
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia(){
-        // Implementar
-        return null;
+        return estadisticas.getCiudadesMayorGanancia();
     }
 
     public ArrayList<Integer> ciudadesConMayorPerdida(){
-        // Implementar
-        return null;
+        return estadisticas.getCiudadesMayorPerdida();
     }
 
     public int gananciaPromedioPorTraslado(){
-        // Implementar
-        return 0;
+
+        return estadisticas.promedioGanancia();
     }
     
 }

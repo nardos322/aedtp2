@@ -6,15 +6,15 @@ import java.util.Comparator;
 
 
 public class Heap<T> {
-    ArrayList<HeapHandle<T>> heap;
-    private Comparator<? super T> comparator;
+    private ArrayList<HeapHandle<T>> heap;
+    private Comparator<T> comparator;
 
     public Heap() {
         heap = new ArrayList<>();
         comparator = null;
     }
 
-    public Heap(Comparator<? super T> comparator) {
+    public Heap(Comparator<T> comparator) {
         heap = new ArrayList<>();
         this.comparator = comparator;
     }
@@ -30,7 +30,7 @@ public class Heap<T> {
         buildHeap();
     }
 
-    public Heap(T[] array, Comparator<? super T> comparator) {
+    public Heap(T[] array, Comparator<T> comparator) {
         heap = new ArrayList<>(array.length);
         this.comparator = comparator;
         int i = 0;
@@ -40,7 +40,7 @@ public class Heap<T> {
         }
         buildHeap();
     }
-    public Heap(HeapHandle[] array, Comparator<? super T> comparator) {
+    public Heap(HeapHandle[] array, Comparator<T> comparator) {
         heap = new ArrayList<>(array.length);
         this.comparator = comparator;
         int i = 0;
@@ -167,7 +167,7 @@ public class Heap<T> {
             return comparator.compare(first, second);
         } else {
             // Invertimos el orden para que el mayor tenga mayor prioridad
-            return ((Comparable<? super T>) first).compareTo(second);
+            return ((Comparable<T>) first).compareTo(second);
         }
     }
     public void eliminar(HeapHandle<T> handle) {
