@@ -7,14 +7,14 @@ import java.util.Comparator;
 
 public class Heap<T> {
     private ArrayList<HeapHandle<T>> heap;
-    private Comparator<? super T> comparator;
+    private Comparator<T> comparator;
 
     public Heap() {
         heap = new ArrayList<>();
         comparator = null;
     }
 
-    public Heap(Comparator<? super T> comparator) {
+    public Heap(Comparator<T> comparator) {
         heap = new ArrayList<>();
         this.comparator = comparator;
     }
@@ -30,7 +30,7 @@ public class Heap<T> {
         buildHeap();
     }
 
-    public Heap(T[] array, Comparator<? super T> comparator) {
+    public Heap(T[] array, Comparator<T> comparator) {
         heap = new ArrayList<>(array.length);
         this.comparator = comparator;
         int i = 0;
@@ -40,8 +40,7 @@ public class Heap<T> {
         }
         buildHeap();
     }
-
-    public Heap(HeapHandle[] array, Comparator<? super T> comparator) {
+    public Heap(HeapHandle[] array, Comparator<T> comparator) {
         heap = new ArrayList<>(array.length);
         this.comparator = comparator;
         int i = 0;
@@ -81,8 +80,8 @@ public class Heap<T> {
         if(heap.isEmpty()) {
             throw new IllegalStateException("Heap vacio");
         }
-
-        return heap.get(0).getElement();
+        //System.out.println(heap.get(0).getIndex());
+        return  heap.get(0).getElement();
     }
 
     public T desencolar() {
@@ -168,21 +167,24 @@ public class Heap<T> {
             return comparator.compare(first, second);
         } else {
             // Invertimos el orden para que el mayor tenga mayor prioridad
-            return ((Comparable<? super T>) first).compareTo(second);
+            return ((Comparable<T>) first).compareTo(second);
         }
     }
-
-    public void eliminar(HeapHandle<T> handle){
+    public void eliminar(HeapHandle<T> handle) {
         int index = handle.getIndex();
         int lastIndex = tamaño() - 1;
         if (index != lastIndex){
             swap(index, lastIndex);
+            heap.get(lastIndex).setIndex(-1);
             heap.remove(lastIndex);
             heapifyDown(index);
             heapifyUp(index);
         } else {
+            heap.get(lastIndex).setIndex(-1);
             heap.remove(lastIndex);
+
         }
+
     }
     public String toString() {
         return heap.toString();
