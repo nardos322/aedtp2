@@ -389,7 +389,8 @@ public class BestEffortTestsPropios {
         Traslado[] traslados = new Traslado[cantTraslados];
 
         for (int i = 0; i < cantTraslados; i++) {
-            traslados[i] = new Traslado(i, i % cantCiudades, (i + 1) % cantCiudades, (int) (Math.random() * 1000), (int) (Math.random() * 1000));
+
+            traslados[i] = new Traslado(i, (int) (Math.random()*cantCiudades), (int) (Math.random()*cantCiudades), (int) (Math.random() * 100000), (int) (Math.random() * 100000));
         }
 
         BestEffort sis = new BestEffort(cantCiudades, traslados);
@@ -397,6 +398,7 @@ public class BestEffortTestsPropios {
         long startTime = System.currentTimeMillis();
         int[] despachadosRedituables = sis.despacharMasRedituables(50000);
         long endTime = System.currentTimeMillis();
+        System.out.println("testStress()");
         System.out.println("Tiempo para despachar 50000 traslados más redituables: " + (endTime - startTime) + " ms");
 
         // Verificar el orden de los traslados más redituables
@@ -418,6 +420,10 @@ public class BestEffortTestsPropios {
             assertTrue(traslados[despachadosAntiguos[i-1]].getTimestamp() <= traslados[despachadosAntiguos[i]].getTimestamp(),
                     "El orden de los traslados más antiguos no se mantiene.");
         }
+
+        // si queremos despachar traslados tiene que estar vacios
+        assertArrayEquals(new int[]{}, sis.despacharMasAntiguos(5));
+        assertArrayEquals(new int[]{}, sis.despacharMasRedituables(5));
 
         startTime = System.currentTimeMillis();
         sis.ciudadConMayorSuperavit();

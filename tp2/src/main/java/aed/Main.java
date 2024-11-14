@@ -1,6 +1,26 @@
 package aed;
 
+
+
 public class Main {
+    public static class SimpleLCG {
+        private static long seed;
+
+        public SimpleLCG(long seed) {
+            this.seed = seed;
+        }
+
+        public static int nextInt(int n) {
+            long a = 11531;
+            long c = 1243565;
+            long m = (1L << 32);
+            seed = (a * seed + c) % m;
+            return (int)(seed % n);
+        }
+
+    }
+
+
     public static void main(String[] args) {
         Traslado[] traslados = {
                 new Traslado(1,3,5,50,6),
@@ -23,20 +43,20 @@ public class Main {
         System.out.println(id2);
         int[] id3 = empresa.despacharMasRedituables(4);
         System.out.println(id3);
-/*        for(int t : empresa.despacharMasRedituables(5)) {
-            System.out.println(t);
+        int n = 100;
+        long inicio = 1L;
+        SimpleLCG generator = new SimpleLCG(inicio);
+
+        for(int i = 0; i < 20; i++){
+            int numberRandom = generator.nextInt(n);
+            System.out.println("el numero aleatorio es " + numberRandom);
         }
 
-        for(HeapHandle<Traslado> k : empresa.masAntiguos.elementos.heap) {
-            System.out.println(k.getElement());
-        }
-        */
 
-        //System.out.println(empresa.estadisticas.ciudades[3].getSuperavit());
-
-
-
-
+   /*     for(int i = 0; i < 10; i++ ){
+            int y = Main.SimpleLCG.nextInt(100);
+            System.out.println(y);
+        }*/
 
     }
 }

@@ -381,7 +381,7 @@ public class HeapTest {
         // Verificar que el heap está vacío después de las extracciones
         assertTrue(heap.vacia(), "El heap debería estar vacío después de las extracciones.");
 
-
+        System.out.println("TestHeapStress()");
         System.out.println("Tiempo de inserción: " + (insertEndTime - startTime) + " ms");
         System.out.println("Tiempo de extracción: " + (extractEndTime - extractStartTime) + " ms");
     }
