@@ -12,17 +12,17 @@ public class BestEffort {
         HeapHandle<Traslado>[] handlesMasRedituables = new HeapHandle[traslados.length];   //O(T)
         HeapHandle<Traslado>[]handlesMasAntiguos = new HeapHandle[traslados.length];       //O(T)
         for (int i = 0; i < traslados.length; i++){                                          //O(T)
-            handlesMasRedituables[i] = new HeapHandle<>(traslados[i], i);
-            handlesMasAntiguos[i] = new HeapHandle<>(traslados[i], i);
+            handlesMasRedituables[i] = new HeapHandle<>(traslados[i], i);                   //O(1)
+            handlesMasAntiguos[i] = new HeapHandle<>(traslados[i], i);                     //O(1)
         }
         for (int i = 0; i < handlesMasRedituables.length; i++){                            //O(T)
-            traslados[i].setHandleGanancia(handlesMasRedituables[i]);
+            traslados[i].setHandleGanancia(handlesMasRedituables[i]);                     //O(1)
         }
         for (int i = 0; i < handlesMasAntiguos.length; i++){                               //O(T)
-            traslados[i].setHandleAntiguedad(handlesMasAntiguos[i]);
+            traslados[i].setHandleAntiguedad(handlesMasAntiguos[i]);                       //O(1)
         }
-        masRedituables = new PriorityQueue<>(handlesMasRedituables, new MasRedituablesComparador());  //O(T)
-        masAntiguos = new PriorityQueue<>(handlesMasAntiguos, new MasAntiguosComparador());          //O(T)
+        masRedituables = new PriorityQueue<>(handlesMasRedituables, new MasRedituablesComparador());  //O(T)  por floyd
+        masAntiguos = new PriorityQueue<>(handlesMasAntiguos, new MasAntiguosComparador());          //O(T)   por floyd
         estadisticas = new Estadistica(cantCiudades);                                                //O(C)
 
     }

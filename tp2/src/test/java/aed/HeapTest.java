@@ -330,4 +330,60 @@ public class HeapTest {
         heap.cambiarPrioridad(handle1);
         assertEquals(handle2.getElement(),heap.root());
     }
+
+
+    @Test
+    void testHeapStress() {
+        int numberOfElements = 1000000; // Un millón de elementos
+        Heap<Integer> heap = new Heap<>();
+
+
+        int seed = 1; // Semilla inicial
+        int a = 1664525;
+        int c = 1013904223;
+        int m = Integer.MAX_VALUE;
+
+
+        int[] data = new int[numberOfElements];
+
+        // Generar y almacenar los datos
+        for (int i = 0; i < numberOfElements; i++) {
+            seed = (a * seed + c) % m;
+            data[i] = seed;
+        }
+
+        // Medir el tiempo de inserción
+        long startTime = System.currentTimeMillis();
+
+        // Insertar elementos en el heap
+        for (int value : data) {
+            heap.encolar(value);
+        }
+
+        long insertEndTime = System.currentTimeMillis();
+
+        // Verificar que el heap no está vacío
+        assertFalse(heap.vacia(), "El heap debería contener elementos después de las inserciones.");
+
+        // Medir el tiempo de extracción
+        long extractStartTime = System.currentTimeMillis();
+
+        // Extraer elementos del heap y verificar el orden
+        int anterior = heap.desencolar();
+        for (int i = 1; i < numberOfElements; i++) {
+            int actual = heap.desencolar();
+            // Verificar que el heap mantiene el orden correcto (para un max-heap)
+            assertTrue(actual <= anterior, "El heap no mantiene el orden correcto.");
+            anterior = actual;
+        }
+
+        long extractEndTime = System.currentTimeMillis();
+        // Verificar que el heap está vacío después de las extracciones
+        assertTrue(heap.vacia(), "El heap debería estar vacío después de las extracciones.");
+
+
+        System.out.println("Tiempo de inserción: " + (insertEndTime - startTime) + " ms");
+        System.out.println("Tiempo de extracción: " + (extractEndTime - extractStartTime) + " ms");
+    }
+
 }

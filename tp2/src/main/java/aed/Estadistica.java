@@ -11,33 +11,34 @@ public class Estadistica {
     private int totalGanancias;
     private int totalTraslados;
 
-    public Estadistica(int cantCiudades){
-        ciudades = new Ciudad[cantCiudades];
-        HeapHandle[] handleCiudades = new HeapHandle[cantCiudades];
-        ciudadesMayorGanancia = new ArrayList<>();
-        ciudadesMayorPerdida = new ArrayList<>();
-        for (int i = 0; i < cantCiudades; i++) {
-            ciudades[i] = new Ciudad(i);
-            handleCiudades[i] = new HeapHandle<>(ciudades[i], i);
-            ciudades[i].setHandleCiudad(handleCiudades[i]);
+    public Estadistica(int cantCiudades){  //O(c)
+        ciudades = new Ciudad[cantCiudades];             //O(c)
+        HeapHandle[] handleCiudades = new HeapHandle[cantCiudades];   //O(c)
+        ciudadesMayorGanancia = new ArrayList<>();             //O(1)
+        ciudadesMayorPerdida = new ArrayList<>();            //O(1)
+        for (int i = 0; i < cantCiudades; i++) {           //O(c)
+            ciudades[i] = new Ciudad(i);                 //O(1)
+            handleCiudades[i] = new HeapHandle<>(ciudades[i], i);  //O(1)
+            ciudades[i].setHandleCiudad(handleCiudades[i]);      //O(1)
         }
-        mayorSuperavit = new PriorityQueue<>(handleCiudades, new SuperavitComparador());
+        mayorSuperavit = new PriorityQueue<>(handleCiudades, new SuperavitComparador());  //O(c)  por floyd
         totalGanancias = 0;
         totalTraslados = 0;
     }
-    public void agregarTraslado(Traslado t){
-        ciudades[t.getOrigen()].agregarGanancia(t.getGanancia());
-        ciudades[t.getDestino()].agregarPerdida(t.getGanancia());
-        ciudades[t.getOrigen()].setSuperavit();
-        ciudades[t.getDestino()].setSuperavit();
-        mayorSuperavit.updatePriority(ciudades[t.getOrigen()].getHandleCiudad());
-        mayorSuperavit.updatePriority(ciudades[t.getDestino()].getHandleCiudad());
-        if(ciudadesMayorGanancia.isEmpty() || ciudades[ciudadesMayorGanancia.get(0)].getGanancia()  == ciudades[t.getOrigen()].getGanancia() && ciudadesMayorGanancia.get(0) != t.getOrigen() ){
-            ciudadesMayorGanancia.add(ciudades[t.getOrigen()].getId());
-        } else if (ciudades[ciudadesMayorGanancia.get(0)].getGanancia() <= ciudades[t.getOrigen()].getGanancia()) {
-            ciudadesMayorGanancia.clear();
-            ciudadesMayorGanancia.add(ciudades[t.getOrigen()].getId());
+    public void agregarTraslado(Traslado t){   //O(log(C))
+        ciudades[t.getOrigen()].agregarGanancia(t.getGanancia());     //O(1)
+        ciudades[t.getDestino()].agregarPerdida(t.getGanancia());      //O(1)
+        ciudades[t.getOrigen()].setSuperavit();                         //O(1)
+        ciudades[t.getDestino()].setSuperavit();                        //O(1)
+        mayorSuperavit.updatePriority(ciudades[t.getOrigen()].getHandleCiudad());  //O(log(C))
+        mayorSuperavit.updatePriority(ciudades[t.getDestino()].getHandleCiudad());  //O(log(C))
+        if(ciudadesMayorGanancia.isEmpty() || ciudades[ciudadesMayorGanancia.get(0)].getGanancia()  == ciudades[t.getOrigen()].getGanancia() && ciudadesMayorGanancia.get(0) != t.getOrigen() ){  //O(1)
+            ciudadesMayorGanancia.add(ciudades[t.getOrigen()].getId());     //O(1)
+        } else if (ciudades[ciudadesMayorGanancia.get(0)].getGanancia() <= ciudades[t.getOrigen()].getGanancia()) {  //O(1)
+            ciudadesMayorGanancia.clear();          //O(1)
+            ciudadesMayorGanancia.add(ciudades[t.getOrigen()].getId());     // O(1)
         }
+        //complejidad analaga al if  anterior
         if(ciudadesMayorPerdida.isEmpty() || ciudades[ciudadesMayorPerdida.get(0)].getPerdida()  == ciudades[t.getDestino()].getPerdida() && ciudadesMayorPerdida.get(0) != t.getDestino()){
             ciudadesMayorPerdida.add(ciudades[t.getDestino()].getId());
         } else if (ciudades[ciudadesMayorPerdida.get(0)].getPerdida() <= ciudades[t.getDestino()].getPerdida()) {
@@ -50,19 +51,19 @@ public class Estadistica {
     }
 
     public ArrayList<Integer> getCiudadesMayorGanancia() {
-        return ciudadesMayorGanancia;
+        return ciudadesMayorGanancia;             //O(1)
     }
 
     public ArrayList<Integer> getCiudadesMayorPerdida() {
-        return ciudadesMayorPerdida;
+        return ciudadesMayorPerdida;          //O(1)
     }
 
     public int getCiudadMayorSuperavit(){
-        return mayorSuperavit.consultarMax().getId();
+        return mayorSuperavit.consultarMax().getId();      //O(1)
     }
 
     public int promedioGanancia(){
-        return totalGanancias / totalTraslados;
+        return totalGanancias / totalTraslados;        //O(1)
     }
 
 }

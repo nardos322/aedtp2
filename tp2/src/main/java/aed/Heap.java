@@ -40,15 +40,16 @@ public class Heap<T> {
         }
         buildHeap();
     }
+    // contructor que recibe un array de handles para construir el  heap tiene complejidad O(n) por usar algoritmo de floyd
     public Heap(HeapHandle[] array, Comparator<T> comparator) {
-        heap = new ArrayList<>(array.length);
+        heap = new ArrayList<>(array.length);    //O(n)
         this.comparator = comparator;
         int i = 0;
-        while (i < array.length) {
-            heap.add(array[i]);
+        while (i < array.length) {    //O(n)
+            heap.add(array[i]);      //O(1)
             i++;
         }
-        buildHeap();
+        buildHeap();       //O(n)
     }
 
     private int padre(int i) {
@@ -80,7 +81,6 @@ public class Heap<T> {
         if(heap.isEmpty()) {
             throw new IllegalStateException("Heap vacio");
         }
-        //System.out.println(heap.get(0).getIndex());
         return  heap.get(0).getElement();
     }
 
@@ -142,7 +142,7 @@ public class Heap<T> {
         }
     }
 
-    private void buildHeap(){
+    private void buildHeap(){   //O(n) algoritmo de floyd
         int ultimoNoHoja = (tamaño() / 2) - 1;
         for(int i = ultimoNoHoja; i >= 0; i-- ){
             heapifyDown(i);
