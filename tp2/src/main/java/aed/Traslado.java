@@ -44,14 +44,12 @@ public class Traslado {
         return handleAntiguedad;
     }
 
-    public void setHandleGanancia(HeapHandle<Traslado> handleGanancia) {
+    public void setHandleGanancia(HeapHandle<Traslado> handleGanancia) {    //O(1)
         this.handleGanancia = handleGanancia;
     }
 
-    public void setHandleAntiguedad(HeapHandle<Traslado> handleAntiguedad) {
+    public void setHandleAntiguedad(HeapHandle<Traslado> handleAntiguedad) {    //O(|)
         this.handleAntiguedad = handleAntiguedad;
     }
-    public String toString(){
-        return String.valueOf(gananciaNeta);
-    }
+
 }

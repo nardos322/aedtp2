@@ -186,9 +186,6 @@ public class Heap<T> {
         }
 
     }
-    public String toString() {
-        return heap.toString();
-    }
 
     public int tamaño(){
         return heap.size();

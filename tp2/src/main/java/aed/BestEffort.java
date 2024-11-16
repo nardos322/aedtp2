@@ -10,7 +10,7 @@ public class BestEffort {
 
     public BestEffort(int cantCiudades, Traslado[] traslados){                           // O(C + T)
         HeapHandle<Traslado>[] handlesMasRedituables = new HeapHandle[traslados.length];   //O(T)
-        HeapHandle<Traslado>[]handlesMasAntiguos = new HeapHandle[traslados.length];       //O(T)
+        HeapHandle<Traslado>[] handlesMasAntiguos = new HeapHandle[traslados.length];       //O(T)
         for (int i = 0; i < traslados.length; i++){                                          //O(T)
             handlesMasRedituables[i] = new HeapHandle<>(traslados[i], i);                   //O(1)
             handlesMasAntiguos[i] = new HeapHandle<>(traslados[i], i);                     //O(1)

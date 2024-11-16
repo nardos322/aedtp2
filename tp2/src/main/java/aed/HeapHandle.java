@@ -26,7 +26,4 @@ public class HeapHandle<T>{
         this.index = index;
     }
 
-    public String toString(){
-        return String.valueOf(element);
-    }
 }

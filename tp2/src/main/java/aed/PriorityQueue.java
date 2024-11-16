@@ -6,23 +6,7 @@ public class PriorityQueue<T> {
     private Heap<T> elementos;
     private int tamaño;
 
-    public PriorityQueue(){
-        elementos = new Heap<>();
-        tamaño = 0;
-    }
-    public PriorityQueue(Comparator<T> comparador) {
-        this.elementos = new Heap<>(comparador);
-        tamaño = 0;
-    }
 
-    public PriorityQueue(Heap<T> elementos) {
-        this.elementos = elementos;
-        tamaño = elementos.tamaño();
-    }
-    public PriorityQueue(T[] array, Comparator<T> comparador) {
-        elementos = new Heap<>(array, comparador);
-        tamaño = array.length;
-    }
     public PriorityQueue(HeapHandle[] array, Comparator<T> comparador) {
         elementos = new Heap<>(array, comparador);
         tamaño = array.length;
@@ -56,12 +40,6 @@ public class PriorityQueue<T> {
     public int size(){
         return tamaño;
     }
-
-    public String toString(){
-        return elementos.toString();
-    }
-
-
 
 
 }
