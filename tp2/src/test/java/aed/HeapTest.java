@@ -22,6 +22,75 @@ public class HeapTest {
             heap.encolar(null);
         });
     }
+
+    @Test
+    public void testHeapWithCustomComparator() {
+        Comparator<Integer> comparator = (a, b) -> b - a; // Min-heap
+        Heap<Integer> heap = new Heap<>(comparator);
+        heap.encolar(10);
+        heap.encolar(20);
+        heap.encolar(5);
+
+        assertEquals(5, heap.desencolar());
+        assertEquals(10, heap.desencolar());
+        assertEquals(20, heap.desencolar());
+    }
+
+    @Test
+    public void testHeapWithArrayConstructor() {
+        Integer[] array = {10, 20, 5};
+        Heap<Integer> heap = new Heap<>(array);
+
+        assertEquals(20, heap.desencolar());
+        assertEquals(10, heap.desencolar());
+        assertEquals(5, heap.desencolar());
+    }
+
+    @Test
+    public void testHeapWithArrayAndComparatorConstructor() {
+        Integer[] array = {10, 20, 5};
+        Comparator<Integer> comparator = (a, b) -> b - a; // Min-heap
+        Heap<Integer> heap = new Heap<>(array, comparator);
+
+        assertEquals(5, heap.desencolar());
+        assertEquals(10, heap.desencolar());
+        assertEquals(20, heap.desencolar());
+    }
+    @Test
+    public void testHeapConstructorWithArrayAndComparator() {
+        Integer[] elementos = {4, 1, 7, 3};
+        Comparator<Integer> comparador = Integer::compareTo;
+        Heap<Integer> heap = new Heap<>(elementos, comparador);
+
+        assertEquals(7, heap.desencolar(), "El elemento de mayor prioridad debe ser 7");
+        assertEquals(4, heap.desencolar(), "El siguiente elemento debe ser 4");
+        assertEquals(3, heap.desencolar(), "El siguiente elemento debe ser 3");
+        assertEquals(1, heap.desencolar(), "El siguiente elemento debe ser 1");
+    }
+
+    @Test
+    public void testHeapWithConstructorHandles(){
+        Integer[] elements = {4,5,6,3};
+        HeapHandle<Integer>[] handlesElemets = new HeapHandle[elements.length];
+        Heap<Integer> heap;
+        for(int i = 0; i < elements.length; i++){
+            handlesElemets[i] = new HeapHandle<>(elements[i], i);
+        }
+        assertEquals(1, handlesElemets[1].getIndex()); // se ve que el handle del elemento 5 tiene index 1 tal cual respeta el array inicial
+        heap = new Heap<>(handlesElemets, new PrimoComparatorMax());
+
+        // despues de constuir el heap con el algoritmo de floyd vemos como el indice del maximo se "acomoda" los handles actualizan sus indices
+        //respetando la propiedad de heap
+        assertEquals(0, handlesElemets[1].getIndex());
+
+        assertEquals(5,heap.desencolar());
+        assertEquals(-1, handlesElemets[1].getIndex()); // como deseconlamos estamos sacando el handle del heap por lo que el indice es -1
+        assertEquals(3,heap.desencolar());
+        assertEquals(6,heap.desencolar());
+        assertEquals(4,heap.desencolar());
+
+    }
+
     @Test
     public void testHeapifyUp() {
         Heap<Integer> heap = new Heap<>();
@@ -34,7 +103,10 @@ public class HeapTest {
         assertEquals(20, heap.desencolar());
         assertEquals(10, heap.desencolar());
         assertEquals(5, heap.desencolar());
-
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            heap.root();
+        });
+        assertEquals("Heap vacio", exception.getMessage());
     }
 
     @Test
@@ -146,50 +218,6 @@ public class HeapTest {
         assertEquals("apple", heap.desencolar());
     }
 
-    @Test
-    public void testHeapWithCustomComparator() {
-        Comparator<Integer> comparator = (a, b) -> b - a; // Min-heap
-        Heap<Integer> heap = new Heap<>(comparator);
-        heap.encolar(10);
-        heap.encolar(20);
-        heap.encolar(5);
-
-        assertEquals(5, heap.desencolar());
-        assertEquals(10, heap.desencolar());
-        assertEquals(20, heap.desencolar());
-    }
-
-    @Test
-    public void testHeapWithArrayConstructor() {
-        Integer[] array = {10, 20, 5};
-        Heap<Integer> heap = new Heap<>(array);
-
-        assertEquals(20, heap.desencolar());
-        assertEquals(10, heap.desencolar());
-        assertEquals(5, heap.desencolar());
-    }
-
-    @Test
-    public void testHeapWithArrayAndComparatorConstructor() {
-        Integer[] array = {10, 20, 5};
-        Comparator<Integer> comparator = (a, b) -> b - a; // Min-heap
-        Heap<Integer> heap = new Heap<>(array, comparator);
-
-        assertEquals(5, heap.desencolar());
-        assertEquals(10, heap.desencolar());
-        assertEquals(20, heap.desencolar());
-    }
-    @Test
-    public void testHeapConstructorWithArrayAndComparator() {
-        Integer[] elementos = {4, 1, 7, 3};
-        Comparator<Integer> comparador = Integer::compareTo;
-        Heap<Integer> heap = new Heap<>(elementos, comparador);
-
-        assertEquals(7, heap.desencolar(), "El elemento de mayor prioridad debe ser 7");
-        assertEquals(4, heap.desencolar(), "El siguiente elemento debe ser 4");
-        assertEquals(3, heap.desencolar(), "El siguiente elemento debe ser 3");
-        assertEquals(1, heap.desencolar(), "El siguiente elemento debe ser 1");
-    }
 
     @Test
     public void testHeapProperty(){
@@ -248,6 +276,7 @@ public class HeapTest {
         assertEquals(20, heap.desencolar());
         assertEquals(8, heap.desencolar());
         assertEquals(6, heap.desencolar());
+
     }
 
     @Test
@@ -330,10 +359,43 @@ public class HeapTest {
         heap.cambiarPrioridad(handle1);
         assertEquals(handle2.getElement(),heap.root());
     }
+    @Test
+    public void testDeleteElements(){
+        Heap<Integer> heap = new Heap<>();
+        HeapHandle<Integer> handle1 = heap.encolar(4);
+        HeapHandle<Integer> handle2 = heap.encolar(3);
+        HeapHandle<Integer> handle3 = heap.encolar(5);
+        HeapHandle<Integer> handle4 = heap.encolar(1);
 
+        //verificamos tamaño inicial del heap
+        assertEquals(4, heap.tamaño());
+        assertEquals(5, heap.root());  //handle3 elemento maximo
+        assertEquals(0, handle3.getIndex()); // como es el primero elemento esta en la pos 0
+
+        // eliminamos el elemento maximo(handle3)
+        heap.eliminar(handle3);
+
+        //verificamos que el tamaño del heap haya disminuido
+        assertEquals(3,heap.tamaño());
+
+        //verificamos ahora cual es el elemento maximo y si es correcto
+        assertEquals(4, heap.root());
+        assertEquals(0,handle1.getIndex()); // vemos que handle1 ahora esta en la pos 0 porque es el maximo
+
+        // si el handle que eliminamos tiene index -1 quiere decir que ya no es un handle valido en el heap y se ha eliminado
+        assertEquals(-1, handle3.getIndex());
+
+        //eliminamos otro elemento
+        assertEquals(2,handle4.getIndex());
+        heap.eliminar(handle4);
+        assertEquals(2, heap.tamaño());
+        assertEquals(-1,handle4.getIndex());
+
+
+    }
 
     @Test
-    void testHeapStress() {
+    public void testHeapStress() {
         int numberOfElements = 1000000; // Un millón de elementos
         Heap<Integer> heap = new Heap<>();
 
